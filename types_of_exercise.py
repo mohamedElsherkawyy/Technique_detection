@@ -9,7 +9,7 @@ class TypeOfExercise(BodyPartAngle):
 
     def push_up(self, counter, status):
         left_arm_angle = self.angle_of_the_left_arm()
-        right_arm_angle = self.angle_of_the_left_arm()
+        right_arm_angle = self.angle_of_the_right_arm()
         avg_arm_angle = (left_arm_angle + right_arm_angle) // 2
 
         if status:
@@ -41,8 +41,8 @@ class TypeOfExercise(BodyPartAngle):
         return [counter, status]
 
     def squat(self, counter, status):
-        left_leg_angle = self.angle_of_the_right_leg()
-        right_leg_angle = self.angle_of_the_left_leg()
+        left_leg_angle = self.angle_of_the_left_leg()  
+        right_leg_angle = self.angle_of_the_right_leg()  
         avg_leg_angle = (left_leg_angle + right_leg_angle) // 2
 
         if status:
@@ -120,35 +120,29 @@ class TypeOfExercise(BodyPartAngle):
         # Use the average angle between both sides
         avg_shoulder_angle = (left_shoulder_angle + right_shoulder_angle) / 2
 
-        # Count the repetitions based on the shoulder angle
+        
         if status:
-            # When the arms are in the downward position (elbow angle around 90°)
-            if avg_shoulder_angle < 100:  # Adjust the angle based on the desired start point
+            if avg_shoulder_angle < 100:  
                 status = False
                 counter += 1
         else:
-            # When the arms are in the upward position (elbow angle around 180°)
-            if avg_shoulder_angle > 170:  # Adjust the angle based on the desired end point
+            
+            if avg_shoulder_angle > 170:  
                 status = True
 
         return [counter, status]
 
     def calculate_exercise(self, exercise_type, counter, status):
         if exercise_type == "push-up":
-            counter, status = TypeOfExercise(self.landmarks).push_up(
-                counter, status)
+            counter, status = self.push_up(counter, status)
         elif exercise_type == "pull-up":
-            counter, status = TypeOfExercise(self.landmarks).pull_up(
-                counter, status)
+            counter, status = self.pull_up(counter, status)
         elif exercise_type == "squat":
-            counter, status = TypeOfExercise(self.landmarks).squat(
-                counter, status)
+            counter, status = self.squat(counter, status)
         elif exercise_type == "walk":
-            counter, status = TypeOfExercise(self.landmarks).walk(
-                counter, status)
+            counter, status = self.walk(counter, status)
         elif exercise_type == "sit-up":
-            counter, status = TypeOfExercise(self.landmarks).sit_up(
-                counter, status)
+            counter, status = self.sit_up(counter, status)
         elif exercise_type == "bicep-curl":
             counter, status = self.bicep_curl(counter, status)
         elif exercise_type == "shoulder-press":
